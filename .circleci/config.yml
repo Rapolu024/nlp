@@ -1,0 +1,67 @@
+# always go with names instead of the version names for the pip libraries
+
+
+version: 2.1
+jobs:
+
+
+  build:
+    working_directory: ~/workspace
+    docker:
+      - image: cimg/base:2023.02
+    steps:
+      - checkout
+      - run:
+         name: install python
+         command: sudo apt update && sudo apt install python3.10 -y && sudo apt install python3-pip && sudo pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+      - run: python3 src/beautiful_soup.py
+  flake8:
+        working_directory: ~/workspace
+        docker:
+            - image: cimg/base:2023.02
+
+        steps:
+            - checkout
+            - run:
+                name: install flake8
+                command: sudo apt update && sudo apt install python3 -y && sudo apt install python3-pip && sudo pip install --upgrade pip && pip3 install flake8 && pip3 uninstall pyreadline
+            - run:
+                name: run flake8
+                command: python3 -m flake8 .
+           
+  isort:
+        docker:
+        - image: cimg/base:2023.02
+
+        steps:
+            - checkout
+            - run:
+                name: Running isort
+                command:  sudo apt update && sudo apt install python3.10 -y && sudo apt install python3-pip && sudo pip install --upgrade pip && pip3 install isort && isort .
+  black:
+        docker:
+        - image: cimg/base:2023.02
+
+        steps:
+            - checkout
+            - run:
+                name: python-black
+                command: sudo apt update && sudo apt install python3.10 -y && sudo apt install python3-pip && sudo pip install --upgrade pip && pip3 install black && python3 -m black .
+  pylint:
+        docker:
+        - image: cimg/base:2023.02
+
+        steps:
+            - checkout
+            - run:
+                name: python-pylint
+                command: sudo apt update && sudo apt install python3.10 -y && sudo apt install python3-pip && sudo pip install --upgrade pip && pip3 install pylint && python3 -m pylint src/
+
+workflows:
+  build:
+    jobs:
+      - build
+      - flake8
+      - isort
+      - black
+      - pylint
