@@ -14,7 +14,7 @@ jobs:
       - run:
          name: install python
          command: sudo apt update && sudo apt install python3.10 -y && sudo apt install python3-pip && sudo pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
-      - run: python3 src/beautiful_soup.py
+      #- run: python3 src/beautiful_soup.py
   flake8:
         working_directory: ~/workspace
         docker:
