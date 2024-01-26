@@ -55,7 +55,7 @@ jobs:
             - checkout
             - run:
                 name: python-pylint
-                command: sudo apt update && sudo apt install python3.10 -y && sudo apt install python3-pip && sudo pip install --upgrade pip && pip3 install pylint && python3 -m pylint src/
+                command: sudo apt update && sudo apt install python3.10 -y && sudo apt install python3-pip && sudo pip install --upgrade pip && pip3 install pylint && python3 -m pylint ./src/
 
 workflows:
   build:
